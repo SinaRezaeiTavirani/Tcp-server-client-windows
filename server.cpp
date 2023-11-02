@@ -23,5 +23,22 @@ int main()
 		std::cout << "The status: " << wsa_data.szSystemStatus << std::endl;
 	}
 
+	SOCKET server_socket = INVALID_SOCKET;
+	server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+	if(server_socket == INVALID_SOCKET)
+	{
+		std::cout << "ERROR at socket(): " << WSAGetLastError() << std::endl;
+		WSACleanup();
+		return 0;
+	}
+	else
+	{
+		std::cout << "socket() is OK!" << std::endl;
+	}
+
+	closesocket(server_socket);
+	WSACleanup();
+
 	return 0;
 }
