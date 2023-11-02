@@ -68,7 +68,22 @@ int main()
 		std::cout << "bind() is OK!" << std::endl;
 	}
 
+	// LISTEN 
 
+	if(listen(server_socket, 2) == SOCKET_ERROR)
+		std::cout << "listen() ERROR listening on socket: " << WSAGetLastError() << std::endl;
+	else
+		std::cout << "listen() is OK" << std::endl;
+
+	SOCKET accept_socket = INVALID_SOCKET;
+	accept_socket = accept(server_socket, nullptr, nullptr);
+	if(accept_socket == INVALID_SOCKET)
+	{
+		std::cout << "accept failed" << WSAGetLastError() << std::endl;
+		return -1;	
+	}
+
+	std::cout << "accepted connection" << std::endl;
 
 	closesocket(server_socket);
 	WSACleanup();
