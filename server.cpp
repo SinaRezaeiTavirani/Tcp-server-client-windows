@@ -1,9 +1,12 @@
 #include <iostream>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include <tchar.h>
 
 int main() 
 {
+	// INITIALIZE WSAStartup
+
 	WSADATA wsa_data;
 	int wsa_err;
 
@@ -23,8 +26,18 @@ int main()
 		std::cout << "The status: " << wsa_data.szSystemStatus << std::endl;
 	}
 
+	// CREAT SOCKET
+
 	SOCKET server_socket = INVALID_SOCKET;
-	server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	int port = 5555;
+
+	// This code is for tcp so we select sock_stream for tcp and if udp we pass SOCK_DGRAM
+	// af_inet means a family that contains udp and tcp 
+	// The protocol for TCP is IPPROTO_TCP
+	// returns 0 if successful
+	server_socket = socket(AF_INET,
+	 						SOCK_STREAM,
+	 						IPPROTO_TCP);
 
 	if(server_socket == INVALID_SOCKET)
 	{
@@ -36,6 +49,26 @@ int main()
 	{
 		std::cout << "socket() is OK!" << std::endl;
 	}
+
+	// BIND SOCKET
+
+	sockaddr_in service;
+	service.sin_family = AF_INET;
+	InetPton(AF_INET, _T("127.0.0.1"), &service.sin_addr.s_addr);
+	service.sin_port = htons(port);
+	if(bind(server_socket, (SOCKADDR*)&service, sizeof(service)) == SOCKET_ERROR)
+	{
+		std::cout << "bind() failed " << WSAGetLastError() << std::endl;
+		closesocket(server_socket);
+		WSACleanup();
+		return 0;
+	}
+	else 
+	{
+		std::cout << "bind() is OK!" << std::endl;
+	}
+
+
 
 	closesocket(server_socket);
 	WSACleanup();
