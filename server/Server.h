@@ -7,13 +7,17 @@
 #include <iostream>
 
 class Server {
+    static Server* instance;
+
 private:
+
+    Server();
     WSADATA wsa_data;
     SOCKET server_socket;
-    const int PORT = 5555;
+    int port;
 
 public:
-    Server();
+    static Server* get_instance();
     ~Server();
 
     bool initializeWSA();

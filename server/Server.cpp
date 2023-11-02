@@ -1,6 +1,15 @@
 #include "Server.h"
 
-Server::Server() : server_socket(INVALID_SOCKET) {}
+Server* Server::instance = nullptr;
+
+Server* Server::get_instance() {
+    if (instance == nullptr) {
+        instance = new Server();
+    }
+    return instance;
+}
+
+Server::Server() : server_socket(INVALID_SOCKET), port(5555) {}
 
 Server::~Server() {
     closesocket(server_socket);
@@ -32,7 +41,7 @@ bool Server::bindSocket() {
     sockaddr_in service;
     service.sin_family = AF_INET;
     InetPton(AF_INET, _T("127.0.0.1"), &service.sin_addr.s_addr);
-    service.sin_port = htons(PORT);
+    service.sin_port = htons(port);
     if (bind(server_socket, (SOCKADDR*)&service, sizeof(service)) == SOCKET_ERROR) {
         std::cout << "bind() failed " << WSAGetLastError() << std::endl;
         return false;
