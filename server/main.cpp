@@ -2,7 +2,7 @@
 
 int main(int argc, char* argv[]) {
 
-    char* ip = argv[1];
+    std::string ip = argv[1];
     int port = std::stoi(argv[2]);
 
     Server::get_instance()->set_config(ip, port);
@@ -16,6 +16,10 @@ int main(int argc, char* argv[]) {
     if (!Server::get_instance()->startListening()) return 0;
 
     if (Server::get_instance()->acceptConnection() == INVALID_SOCKET) return -1;
+
+    if (!Server::get_instance()->receiveData()) return 0;
+    
+
 
     return 0;
 }

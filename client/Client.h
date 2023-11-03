@@ -5,6 +5,7 @@
 #include <ws2tcpip.h>
 #include <tchar.h>
 #include <string>
+#include <iostream>
 
 class Client {
 private:
@@ -17,9 +18,15 @@ public:
     Client(const std::string& ip, int port);
     ~Client();
 
+    // Setters
+
+    // Operations
     bool initializeWSA();
     SOCKET createSocket();
     bool connectToServer();
+    int sendCommand(const std::string& cmd);
+    void closeConnection();
+
 };
 
 #endif // CLIENT_H

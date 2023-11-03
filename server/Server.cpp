@@ -1,10 +1,13 @@
 #include "Server.h"
 #include "Logger.h"
+#include <cstdlib>
+#include <sstream>
 
 
 Server::Server() : m_server_socket(INVALID_SOCKET)
                     , m_port(0)
-                    , m_ip("") {}
+                    , m_ip("")
+                    , accept_socket(INVALID_SOCKET) {}
  
 Server* Server::instance = nullptr;
 
@@ -65,7 +68,7 @@ bool Server::startListening() {
 }
 
 SOCKET Server::acceptConnection() {
-    SOCKET accept_socket = INVALID_SOCKET;
+    accept_socket = INVALID_SOCKET;
     accept_socket = accept(m_server_socket, nullptr, nullptr);
     if (accept_socket == INVALID_SOCKET) {
         Logger::get_instance()->log("accept failed: " + WSAGetLastError());
@@ -74,3 +77,36 @@ SOCKET Server::acceptConnection() {
     Logger::get_instance()->log("accepted connection");
     return accept_socket;
 }
+
+std::string Server::runCommand(const std::string& cmd) {
+    const std::string tmpFileName = "temp_output.txt";
+    std::system((cmd + " > " + tmpFileName).c_str());
+
+    std::ifstream file(tmpFileName);
+    std::stringstream ss;
+
+    ss << file.rdbuf();
+    file.close();
+    std::remove(tmpFileName.c_str());
+
+    return ss.str();
+}
+
+bool Server::receiveData() {    
+    char receiveBuffer[200] = "";
+    int byteCount = recv(accept_socket, receiveBuffer, sizeof(receiveBuffer), 0);
+
+    if (byteCount < 0) {
+        Logger::get_instance()->log("Client:error " + std::to_string(WSAGetLastError()));
+        return false;
+    } else {
+        Logger::get_instance()->log("Received data: " + std::string(receiveBuffer));
+        Logger::get_instance()->log("output of command: " + runCommand(std::string(receiveBuffer)));
+        Logger::get_instance()->log("********************#######********************");
+
+        return true;
+    }
+}
+
+
+

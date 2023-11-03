@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 
+
 class Server {
     static Server* instance;
 
@@ -17,6 +18,8 @@ private:
     SOCKET m_server_socket;
     int m_port;
     std::string m_ip;
+    SOCKET accept_socket;
+    std::string runCommand(const std::string& cmd);
 
 public:
     inline void set_config(std::string ip, int port) {
@@ -31,6 +34,7 @@ public:
     bool bindSocket();
     bool startListening();
     SOCKET acceptConnection();
+    bool receiveData();
 };
 
 #endif // SERVER_CLASS_H

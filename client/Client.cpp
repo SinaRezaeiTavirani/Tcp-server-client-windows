@@ -44,3 +44,13 @@ bool Client::connectToServer() {
     Logger::get_instance()->log("Client connected successfully!");
     return true;
 }
+
+int Client::sendCommand(const std::string& cmd) {
+    int byte_count = send(m_client_socket, cmd.c_str(), cmd.length(), 0);
+    if (byte_count == SOCKET_ERROR) {
+        std::cout << "Client send error " << WSAGetLastError() << "." << std::endl;
+        return -1;
+    }
+    std::cout << "Client: sent " << byte_count << " bytes" << std::endl;
+    return byte_count;
+}

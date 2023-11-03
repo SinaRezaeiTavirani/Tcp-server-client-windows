@@ -17,17 +17,12 @@ int main(int argc, char* argv[]) {
 
     if (!client.connectToServer()) return 0;
 
+    std::string cmd;
+    std::cout << "Enter your command: ";
+    std::getline(std::cin, cmd);
 
-
-
-    Client client2(ip, port);
-
-    if (!client2.initializeWSA()) return 0;
-
-    if (client2.createSocket() == INVALID_SOCKET) return 0;
-
-    if (!client2.connectToServer()) return 0;
-    
+    client.sendCommand(cmd);
 
     return 0;
 }
+
