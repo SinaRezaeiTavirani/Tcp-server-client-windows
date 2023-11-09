@@ -7,9 +7,12 @@
 #include <iostream>
 #include <string>
 
+class CommandExecutor {
+public:
+    static std::string runCommand(const std::string& cmd);
+};
 
 class Server {
-    static Server* instance;
 
 private:
 
@@ -18,7 +21,7 @@ private:
     SOCKET m_server_socket;
     int m_port;
     std::string m_ip;
-    SOCKET accept_socket;
+    SOCKET m_accept_socket;
     std::string runCommand(const std::string& cmd);
 
 public:

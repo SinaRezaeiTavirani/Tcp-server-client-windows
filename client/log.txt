@@ -1,0 +1,4 @@
+The Winsock dll found
+The status: Running
+socket() is OK!
+Client connected successfully!

@@ -1,0 +1,26 @@
+The Winsock dll found
+The status: Running
+socket() is OK!
+bind() is OK!
+listen() is OK
+accepted connection
+Received data: dir
+output of command:  Volume in drive C is OS
+ Volume Serial Number is 7ECE-5399
+
+ Directory of C:\CPP_codes\Tcp-server-client-windows\server
+
+11/04/2023  09:15 AM    <DIR>          .
+11/03/2023  11:58 AM    <DIR>          ..
+11/04/2023  09:14 AM                 0 log.txt
+11/01/2023  02:29 AM               578 Logger.cpp
+11/01/2023  02:35 AM               347 Logger.h
+11/03/2023  06:03 PM               620 main.cpp
+11/03/2023  05:21 PM             3,414 Server.cpp
+11/04/2023  09:14 AM           193,103 server.exe
+11/03/2023  05:21 PM               781 Server.h
+11/04/2023  09:15 AM                 0 temp_output.txt
+               8 File(s)        198,843 bytes
+               2 Dir(s)  263,194,202,112 bytes free
+
+********************#######********************
